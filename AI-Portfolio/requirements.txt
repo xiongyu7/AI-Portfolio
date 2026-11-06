@@ -1,0 +1,15 @@
+# 运行环境依赖（Python 3.10+）
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+jupyterlab
+
+# 03_Spam_API
+fastapi
+uvicorn[standard]
+
+# 04_LLM_Agent
+openai
+python-dotenv
