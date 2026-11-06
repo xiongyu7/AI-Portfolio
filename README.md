@@ -18,9 +18,9 @@
 
 自然语言 → 大模型生成 SQL → 清洗 → 交给 SQLite **真实执行** → 返回结果表。
 
-关键不在"让模型写 SQL"，而在**验证**：模型输出的 SQL 到底对不对，只有落到真实数据库上跑一遍才知道。
+关键不在"让模型写 SQL"，而在**验证**：搭了 50 道题的评测集（easy / medium / hard = 16 / 18 / 16），用**执行结果**而非 SQL 字符串比对，输出执行准确率和五类错误分布。底层是 8 张表、2 万订单的真实规模数据库。
 
-`Python` · `openai` · `SQLite` · `Prompt Engineering`
+`Python` · `DeepSeek API` · `SQLite` · `sqlglot` · `unittest`
 
 ### 2. [垃圾邮件分类 API 服务](03_Spam_API/)
 
@@ -52,7 +52,7 @@ AI-Portfolio/
 ├── 01_Titanic_Prediction/   notebook + 数据 + 说明
 ├── 02_House_Price/          训练脚本
 ├── 03_Spam_API/             FastAPI 服务
-└── 04_LLM_Agent/            SQL 基础 + Text-to-SQL
+└── 04_LLM_Agent/            Text-to-SQL Agent + 50 题评测
 ```
 
 每个目录下都有独立的 README，写清楚了这个项目解决什么问题、怎么跑、结果如何、踩过什么坑。
@@ -60,7 +60,7 @@ AI-Portfolio/
 ## 📫 联系我
 
 - GitHub：[@xiongyu7](https://github.com/xiongyu7)
-- 邮箱：`（把这里换成你的邮箱）`
+- 邮箱：2493552934@qq.com
 - 求职方向：AI 应用开发 / 数据分析 · 2027 届
 
 ---

@@ -1,0 +1,484 @@
+[
+  {
+    "id": "e01",
+    "question": "一共有多少个客户？",
+    "sql": "SELECT COUNT(*) AS n FROM customers",
+    "difficulty": "easy",
+    "tags": [
+      "count"
+    ]
+  },
+  {
+    "id": "e02",
+    "question": "一共有多少个商品？",
+    "sql": "SELECT COUNT(*) AS n FROM products",
+    "difficulty": "easy",
+    "tags": [
+      "count"
+    ]
+  },
+  {
+    "id": "e03",
+    "question": "状态为已取消（cancelled）的订单有多少笔？",
+    "sql": "SELECT COUNT(*) AS n FROM orders WHERE status = 'cancelled'",
+    "difficulty": "easy",
+    "tags": [
+      "filter"
+    ]
+  },
+  {
+    "id": "e04",
+    "question": "各个下单渠道的订单数分别是多少？",
+    "sql": "SELECT channel, COUNT(*) AS n FROM orders GROUP BY channel ORDER BY n DESC",
+    "difficulty": "easy",
+    "tags": [
+      "group"
+    ]
+  },
+  {
+    "id": "e05",
+    "question": "客户等级（level）各有几人？",
+    "sql": "SELECT level, COUNT(*) AS n FROM customers GROUP BY level ORDER BY n DESC",
+    "difficulty": "easy",
+    "tags": [
+      "group"
+    ]
+  },
+  {
+    "id": "e06",
+    "question": "所有支付记录的平均金额是多少？",
+    "sql": "SELECT ROUND(AVG(amount), 2) AS avg_amount FROM payments",
+    "difficulty": "easy",
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": "e07",
+    "question": "打 5 星的评论有多少条？",
+    "sql": "SELECT COUNT(*) AS n FROM reviews WHERE rating = 5",
+    "difficulty": "easy",
+    "tags": [
+      "filter"
+    ]
+  },
+  {
+    "id": "e08",
+    "question": "注册城市为北京的客户有多少人？",
+    "sql": "SELECT COUNT(*) AS n FROM customers WHERE city = '北京'",
+    "difficulty": "easy",
+    "tags": [
+      "filter"
+    ]
+  },
+  {
+    "id": "e09",
+    "question": "当前在售（on_sale）的商品有多少个？",
+    "sql": "SELECT COUNT(*) AS n FROM products WHERE status = 'on_sale'",
+    "difficulty": "easy",
+    "tags": [
+      "filter"
+    ]
+  },
+  {
+    "id": "e10",
+    "question": "所有评论的平均评分是多少？",
+    "sql": "SELECT ROUND(AVG(rating), 2) AS avg_rating FROM reviews",
+    "difficulty": "easy",
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": "e11",
+    "question": "不同支付方式的支付笔数分别是多少？",
+    "sql": "SELECT method, COUNT(*) AS n FROM payments GROUP BY method ORDER BY n DESC",
+    "difficulty": "easy",
+    "tags": [
+      "group"
+    ]
+  },
+  {
+    "id": "e12",
+    "question": "各快递公司承运的包裹数量分别是多少？",
+    "sql": "SELECT carrier, COUNT(*) AS n FROM shipments GROUP BY carrier ORDER BY n DESC",
+    "difficulty": "easy",
+    "tags": [
+      "group"
+    ]
+  },
+  {
+    "id": "e13",
+    "question": "2024 年一共产生了多少笔订单？",
+    "sql": "SELECT COUNT(*) AS n FROM orders WHERE order_date >= '2024-01-01' AND order_date < '2025-01-01'",
+    "difficulty": "easy",
+    "tags": [
+      "time"
+    ]
+  },
+  {
+    "id": "e14",
+    "question": "所有商品的平均售价是多少？",
+    "sql": "SELECT ROUND(AVG(price), 2) AS avg_price FROM products",
+    "difficulty": "easy",
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": "e15",
+    "question": "评论内容为「包装破损」的记录有多少条？",
+    "sql": "SELECT COUNT(*) AS n FROM reviews WHERE content = '包装破损'",
+    "difficulty": "easy",
+    "tags": [
+      "filter"
+    ]
+  },
+  {
+    "id": "e16",
+    "question": "各订单状态的订单数分别是多少？",
+    "sql": "SELECT status, COUNT(*) AS n FROM orders GROUP BY status ORDER BY n DESC",
+    "difficulty": "easy",
+    "tags": [
+      "group"
+    ]
+  },
+  {
+    "id": "m01",
+    "question": "每个品类下有多少个商品？",
+    "sql": "SELECT c.name AS category, COUNT(p.id) AS n FROM categories c JOIN products p ON p.category_id = c.id GROUP BY c.id ORDER BY n DESC",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "group"
+    ]
+  },
+  {
+    "id": "m02",
+    "question": "下单次数最多的 10 位客户是谁？",
+    "sql": "SELECT customer_id, COUNT(*) AS n FROM orders GROUP BY customer_id ORDER BY n DESC, customer_id LIMIT 10",
+    "difficulty": "medium",
+    "tags": [
+      "group",
+      "topn"
+    ]
+  },
+  {
+    "id": "m03",
+    "question": "按支付金额统计，销售额最高的 10 个商品是哪些？",
+    "sql": "SELECT p.name, ROUND(SUM(oi.quantity * oi.unit_price * (1 - oi.discount)), 2) AS revenue FROM order_items oi JOIN orders o ON o.id = oi.order_id JOIN payments pa ON pa.order_id = o.id JOIN products p ON p.id = oi.product_id GROUP BY p.id ORDER BY revenue DESC, p.id LIMIT 10",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "group",
+      "topn"
+    ]
+  },
+  {
+    "id": "m04",
+    "question": "每个品类的销售额（按支付金额）分别是多少？",
+    "sql": "SELECT c.name AS category, ROUND(SUM(oi.quantity * oi.unit_price * (1 - oi.discount)), 2) AS revenue FROM order_items oi JOIN orders o ON o.id = oi.order_id JOIN payments pa ON pa.order_id = o.id JOIN products p ON p.id = oi.product_id JOIN categories c ON c.id = p.category_id GROUP BY c.id ORDER BY revenue DESC",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "group"
+    ]
+  },
+  {
+    "id": "m05",
+    "question": "2025 年每个月的订单数是多少？",
+    "sql": "SELECT substr(order_date, 1, 7) AS month, COUNT(*) AS n FROM orders WHERE order_date >= '2025-01-01' AND order_date < '2026-01-01' GROUP BY month ORDER BY month",
+    "difficulty": "medium",
+    "tags": [
+      "time",
+      "group"
+    ]
+  },
+  {
+    "id": "m06",
+    "question": "各个下单渠道的平均支付金额是多少？",
+    "sql": "SELECT o.channel, ROUND(AVG(pa.amount), 2) AS avg_amount FROM payments pa JOIN orders o ON o.id = pa.order_id GROUP BY o.channel ORDER BY avg_amount DESC",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "avg"
+    ]
+  },
+  {
+    "id": "m07",
+    "question": "还没有支付记录的订单有多少笔？",
+    "sql": "SELECT COUNT(*) AS n FROM orders o LEFT JOIN payments pa ON pa.order_id = o.id WHERE pa.id IS NULL",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "null"
+    ]
+  },
+  {
+    "id": "m08",
+    "question": "支付总额最高的 5 个城市是哪些？",
+    "sql": "SELECT c.city, ROUND(SUM(pa.amount), 2) AS total FROM payments pa JOIN orders o ON o.id = pa.order_id JOIN customers c ON c.id = o.customer_id GROUP BY c.city ORDER BY total DESC LIMIT 5",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "group",
+      "topn"
+    ]
+  },
+  {
+    "id": "m09",
+    "question": "评论数最多的 10 个商品是哪些？",
+    "sql": "SELECT p.name, COUNT(r.id) AS n FROM reviews r JOIN products p ON p.id = r.product_id GROUP BY p.id ORDER BY n DESC, p.id LIMIT 10",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "topn"
+    ]
+  },
+  {
+    "id": "m10",
+    "question": "不同客户等级的平均支付金额分别是多少？",
+    "sql": "SELECT c.level, ROUND(AVG(pa.amount), 2) AS avg_amount FROM payments pa JOIN orders o ON o.id = pa.order_id JOIN customers c ON c.id = o.customer_id GROUP BY c.level ORDER BY avg_amount DESC",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "avg"
+    ]
+  },
+  {
+    "id": "m11",
+    "question": "2026 年每个月的支付总额是多少？",
+    "sql": "SELECT substr(pa.paid_at, 1, 7) AS month, ROUND(SUM(pa.amount), 2) AS total FROM payments pa WHERE pa.paid_at >= '2026-01-01' AND pa.paid_at < '2027-01-01' GROUP BY month ORDER BY month",
+    "difficulty": "medium",
+    "tags": [
+      "time",
+      "sum"
+    ]
+  },
+  {
+    "id": "m12",
+    "question": "退款订单（refunded）占全部订单的比例是多少？",
+    "sql": "SELECT ROUND(100.0 * SUM(CASE WHEN status = 'refunded' THEN 1 ELSE 0 END) / COUNT(*), 2) AS pct FROM orders",
+    "difficulty": "medium",
+    "tags": [
+      "case",
+      "ratio"
+    ]
+  },
+  {
+    "id": "m13",
+    "question": "各快递公司的平均送达天数（下单到签收）是多少？",
+    "sql": "SELECT s.carrier, ROUND(AVG(julianday(s.delivered_at) - julianday(o.order_date)), 2) AS avg_days FROM shipments s JOIN orders o ON o.id = s.order_id GROUP BY s.carrier ORDER BY avg_days",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "date"
+    ]
+  },
+  {
+    "id": "m14",
+    "question": "销量（件数）最高的 5 个商品是哪些？",
+    "sql": "SELECT p.name, SUM(oi.quantity) AS qty FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY p.id ORDER BY qty DESC, p.id LIMIT 5",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "topn"
+    ]
+  },
+  {
+    "id": "m15",
+    "question": "每个品类的商品平均售价是多少？",
+    "sql": "SELECT c.name AS category, ROUND(AVG(p.price), 2) AS avg_price FROM products p JOIN categories c ON c.id = p.category_id GROUP BY c.id ORDER BY avg_price DESC",
+    "difficulty": "medium",
+    "tags": [
+      "join",
+      "avg"
+    ]
+  },
+  {
+    "id": "m16",
+    "question": "每个订单平均包含多少件商品？",
+    "sql": "SELECT ROUND(AVG(cnt), 2) AS avg_items FROM (SELECT order_id, SUM(quantity) AS cnt FROM order_items GROUP BY order_id)",
+    "difficulty": "medium",
+    "tags": [
+      "subquery",
+      "avg"
+    ]
+  },
+  {
+    "id": "m17",
+    "question": "各渠道的退款订单数分别是多少？",
+    "sql": "SELECT channel, COUNT(*) AS n FROM orders WHERE status = 'refunded' GROUP BY channel ORDER BY n DESC",
+    "difficulty": "medium",
+    "tags": [
+      "filter",
+      "group"
+    ]
+  },
+  {
+    "id": "m18",
+    "question": "2025 年注册的客户有多少人？",
+    "sql": "SELECT COUNT(*) AS n FROM customers WHERE signup_date >= '2025-01-01' AND signup_date < '2026-01-01'",
+    "difficulty": "medium",
+    "tags": [
+      "time"
+    ]
+  },
+  {
+    "id": "h01",
+    "question": "支付总额最高的客户叫什么名字，总额是多少？",
+    "sql": "SELECT c.name, ROUND(SUM(pa.amount), 2) AS total FROM payments pa JOIN orders o ON o.id = pa.order_id JOIN customers c ON c.id = o.customer_id GROUP BY c.id ORDER BY total DESC, c.id LIMIT 1",
+    "difficulty": "hard",
+    "tags": [
+      "join",
+      "topn"
+    ]
+  },
+  {
+    "id": "h02",
+    "question": "下单次数达到 10 次及以上的客户有多少人？",
+    "sql": "SELECT COUNT(*) AS n FROM (SELECT customer_id FROM orders GROUP BY customer_id HAVING COUNT(*) >= 10)",
+    "difficulty": "hard",
+    "tags": [
+      "subquery",
+      "having"
+    ]
+  },
+  {
+    "id": "h03",
+    "question": "每个品类中销量最高的商品是哪个？",
+    "sql": "SELECT category, name, qty FROM (SELECT c.name AS category, p.name, SUM(oi.quantity) AS qty, ROW_NUMBER() OVER (PARTITION BY c.id ORDER BY SUM(oi.quantity) DESC, p.id) AS rn FROM order_items oi JOIN products p ON p.id = oi.product_id JOIN categories c ON c.id = p.category_id GROUP BY c.id, p.id) WHERE rn = 1 ORDER BY category",
+    "difficulty": "hard",
+    "tags": [
+      "window"
+    ]
+  },
+  {
+    "id": "h04",
+    "question": "每位客户最近一次下单的日期是什么时候？（只列出有订单的客户）",
+    "sql": "SELECT c.id, c.name, MAX(o.order_date) AS last_order FROM customers c JOIN orders o ON o.customer_id = c.id GROUP BY c.id ORDER BY last_order DESC, c.id LIMIT 20",
+    "difficulty": "hard",
+    "tags": [
+      "group",
+      "max"
+    ]
+  },
+  {
+    "id": "h05",
+    "question": "从来没有下过单的客户有多少人？",
+    "sql": "SELECT COUNT(*) AS n FROM customers c LEFT JOIN orders o ON o.customer_id = c.id WHERE o.id IS NULL",
+    "difficulty": "hard",
+    "tags": [
+      "join",
+      "null"
+    ]
+  },
+  {
+    "id": "h06",
+    "question": "各城市的复购率（下单 2 次及以上的客户占比）是多少？",
+    "sql": "SELECT c.city, ROUND(100.0 * SUM(CASE WHEN t.n >= 2 THEN 1 ELSE 0 END) / COUNT(*), 2) AS repeat_rate FROM customers c LEFT JOIN (SELECT customer_id, COUNT(*) AS n FROM orders GROUP BY customer_id) t ON t.customer_id = c.id GROUP BY c.city ORDER BY repeat_rate DESC",
+    "difficulty": "hard",
+    "tags": [
+      "subquery",
+      "ratio"
+    ]
+  },
+  {
+    "id": "h07",
+    "question": "哪些渠道的平均支付金额高于全站平均？",
+    "sql": "SELECT channel, ROUND(avg_amount, 2) AS avg_amount FROM (SELECT o.channel AS channel, AVG(pa.amount) AS avg_amount FROM payments pa JOIN orders o ON o.id = pa.order_id GROUP BY o.channel) WHERE avg_amount > (SELECT AVG(amount) FROM payments) ORDER BY avg_amount DESC",
+    "difficulty": "hard",
+    "tags": [
+      "subquery"
+    ]
+  },
+  {
+    "id": "h08",
+    "question": "各品类的销售额占总销售额的比例分别是多少？",
+    "sql": "SELECT c.name AS category, ROUND(100.0 * SUM(oi.quantity * oi.unit_price * (1 - oi.discount)) / (SELECT SUM(quantity * unit_price * (1 - discount)) FROM order_items), 2) AS pct FROM order_items oi JOIN products p ON p.id = oi.product_id JOIN categories c ON c.id = p.category_id GROUP BY c.id ORDER BY pct DESC",
+    "difficulty": "hard",
+    "tags": [
+      "window",
+      "ratio"
+    ]
+  },
+  {
+    "id": "h09",
+    "question": "支付金额与订单明细合计金额不一致的订单有多少笔？（差异超过 0.01 元）",
+    "sql": "SELECT COUNT(*) AS n FROM (SELECT o.id, pa.amount AS paid, SUM(oi.quantity * oi.unit_price * (1 - oi.discount)) AS calc FROM orders o JOIN payments pa ON pa.order_id = o.id JOIN order_items oi ON oi.order_id = o.id GROUP BY o.id HAVING ABS(pa.amount - SUM(oi.quantity * oi.unit_price * (1 - oi.discount))) > 0.01)",
+    "difficulty": "hard",
+    "tags": [
+      "checksum"
+    ]
+  },
+  {
+    "id": "h10",
+    "question": "平均评分最低的商品是哪一个？它的评论数是多少？",
+    "sql": "SELECT p.name, ROUND(AVG(r.rating), 2) AS avg_rating, COUNT(*) AS n FROM reviews r JOIN products p ON p.id = r.product_id GROUP BY p.id ORDER BY avg_rating ASC, p.id LIMIT 1",
+    "difficulty": "hard",
+    "tags": [
+      "having",
+      "topn"
+    ]
+  },
+  {
+    "id": "h11",
+    "question": "每个月有多少位不同的客户下过单？",
+    "sql": "SELECT substr(order_date, 1, 7) AS month, COUNT(DISTINCT customer_id) AS customers FROM orders GROUP BY month ORDER BY month",
+    "difficulty": "hard",
+    "tags": [
+      "distinct",
+      "time"
+    ]
+  },
+  {
+    "id": "h12",
+    "question": "客户首次购买与第二次购买的平均间隔天数是多少？",
+    "sql": "SELECT ROUND(AVG(gap), 2) AS avg_days FROM (SELECT customer_id, julianday(order_date) - julianday(LAG(order_date) OVER (PARTITION BY customer_id ORDER BY order_date)) AS gap FROM orders) WHERE gap IS NOT NULL",
+    "difficulty": "hard",
+    "tags": [
+      "window",
+      "date"
+    ]
+  },
+  {
+    "id": "h13",
+    "question": "各客户等级的平均订单笔数是多少？",
+    "sql": "SELECT c.level, ROUND(AVG(t.n), 2) AS avg_orders FROM customers c LEFT JOIN (SELECT customer_id, COUNT(*) AS n FROM orders GROUP BY customer_id) t ON t.customer_id = c.id GROUP BY c.level ORDER BY avg_orders DESC",
+    "difficulty": "hard",
+    "tags": [
+      "subquery",
+      "avg"
+    ]
+  },
+  {
+    "id": "h14",
+    "question": "支付总额最高的 3 个城市中，销量最高的商品是哪个？",
+    "sql": "SELECT p.name, SUM(oi.quantity) AS qty FROM order_items oi JOIN orders o ON o.id = oi.order_id JOIN payments pa ON pa.order_id = o.id JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = oi.product_id WHERE c.city IN (SELECT c2.city FROM payments pa2 JOIN orders o2 ON o2.id = pa2.order_id JOIN customers c2 ON c2.id = o2.customer_id GROUP BY c2.city ORDER BY SUM(pa2.amount) DESC LIMIT 3) GROUP BY p.id ORDER BY qty DESC, p.id LIMIT 1",
+    "difficulty": "hard",
+    "tags": [
+      "subquery",
+      "topn"
+    ]
+  },
+  {
+    "id": "h15",
+    "question": "下单次数最多的前 3 位客户一共贡献了多少件商品？",
+    "sql": "SELECT SUM(oi.quantity) AS qty FROM order_items oi JOIN orders o ON o.id = oi.order_id WHERE o.customer_id IN (SELECT customer_id FROM orders GROUP BY customer_id ORDER BY COUNT(*) DESC LIMIT 3)",
+    "difficulty": "hard",
+    "tags": [
+      "subquery",
+      "sum"
+    ]
+  },
+  {
+    "id": "h16",
+    "question": "每个月的新客户数与当月订单数相比，哪个月的订单客户比最高？",
+    "sql": "SELECT substr(o.order_date, 1, 7) AS month, COUNT(DISTINCT o.customer_id) AS buyers, COUNT(*) AS orders, ROUND(1.0 * COUNT(*) / COUNT(DISTINCT o.customer_id), 3) AS ratio FROM orders o GROUP BY month ORDER BY ratio DESC LIMIT 1",
+    "difficulty": "hard",
+    "tags": [
+      "ratio",
+      "time"
+    ]
+  }
+]

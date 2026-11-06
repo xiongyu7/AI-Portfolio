@@ -23,6 +23,10 @@ env/
 models/
 data/raw/
 
+# 可再生成的数据库（用 build_db.py 重建）
+ecommerce.db
+04_LLM_Agent/eval_report.md
+
 # 编辑器和系统
 .idea/
 .vscode/
