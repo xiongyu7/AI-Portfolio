@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# 数据与模型大文件（按需保留小样本数据）
+*.zip
+*.tar.gz
+*.h5
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.bin
+*.onnx
+models/
+data/raw/
+
+# 编辑器和系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日志与临时文件
+*.log
+~$*
